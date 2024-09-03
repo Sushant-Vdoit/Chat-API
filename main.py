@@ -17,7 +17,7 @@ def openai_gpt_reply(current_user_input):
         client = OpenAI(api_key=api_key)
         stream = client.chat.completions.create(
             messages=[
-                {"role": "system", 'content': 'You are  helpful assistant'},
+                {"role": "system", 'content': 'You are a helpful assistant'},
                 {"role": "user", "content": current_user_input}
             ],
             model='gpt-3.5-turbo',
@@ -35,8 +35,7 @@ def openai_gpt_reply(current_user_input):
 
 @app.route('/ask', methods=['POST'])
 def ask_question():
-    data = request.json
-    user_input = data.get("question", "")
+    user_input = request.data.decode('utf-8')
     if not user_input:
         return jsonify({"error": "No question provided"}), 400
 
